@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 var bodyParser = require('body-parser')
-const port = 3000;
+let port = process.env.PORT || 3000;
 let db= require('./db.js')
 
 const __SESSION = (req, res, next) =>{
