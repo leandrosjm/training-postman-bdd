@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "fdcfb27a-52d8-44f5-970e-2139ed7630bb",
+		"name": "Testing with BDD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "autentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c128774-690e-4de7-a413-4be1193207f5",
+								"exec": [
+									"var t = JSON.parse(responseBody);\r",
+									"pm.globals.set('access-token', t.token);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cpf\":\"1234567891\",\n\t\"password\":\"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "542c508c-0484-400a-9946-44be1676930a",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e4f5cd2-2d5a-4e15-8610-744a3b71daa8",
+								"exec": [
+									"let user = JSON.parse(responseBody);\r",
+									"pm.globals.set('cpf', user.cpf);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cpf\":\"1234567891\",\n\t\"name\":\"Leonardo Telles\",\n\t\"age\":21,\n\t\"password\":\"abc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unique",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "965e2f73-aba7-4aac-96a7-fa764acbde2e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{access-token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/1234567891",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1234567891"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "51348c92-e8b8-4a1d-ae44-01cc2b0e238a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "19d3df7d-00f8-4744-ac1c-54c86b561253",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{access-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Leandro Pereria\",\n\t\"age\":35\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/{{cpf}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"{{cpf}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a28cedc6-7177-4600-8473-eb226ffa3673",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{access-token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/9636666",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"9636666"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "Get for user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ad88ba21-c4ce-4962-a082-2d0233122179",
+								"exec": [
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"/// return API\r",
+									"var response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Sum of itens is equal the value of invoice\", function () {\r",
+									"    let valueTotal = response.value;\r",
+									"   var somar = 0;\r",
+									"    for(var i=0; i< response.itens.length; i++){\r",
+									"         somar = somar+ parseFloat(response.itens[i].value);\r",
+									"         //console.log('somar11', somar)\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(valueTotal).to.equals(somar);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{access-token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "x-access-token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/payments/05146625735",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"payments",
+								"05146625735"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
