@@ -42,7 +42,7 @@ app.get('/users', __SESSION, (req, res)=>{
     
 });
 
-app.get('/users/:cpf',__SESSION, (req, res)=>{]
+app.get('/users/:cpf',__SESSION, (req, res)=>{
     try {
         const user = db.users.find(x=>x.cpf == req.params.cpf);
         res.json(user);    
