@@ -6,7 +6,7 @@ let db= require('./db.js')
 
 const __SESSION = (req, res, next) =>{
     var token = req.headers['x-access-token'];
-    console.log('token', token);
+    //console.log('token', token);
     if(!token || token == null){
         return res.status(401).json({ message: 'Not Authorized' }); 
     }
@@ -16,56 +16,87 @@ const __SESSION = (req, res, next) =>{
     next();
 }
 
-app.use(bodyParser.json({ limit: '10mb', type: 'application/json' }));
+app.use(bodyParser.json({ type: 'application/json' }));
 
 app.post('/auth', (req, res)=>{
-    let user = db.users.find(x=>x.cpf == req.body.cpf && x.password == req.body.password);
-    if(user){
-        return res.json({token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'});
+    try {
+        let user = db.users.find(x=>x.cpf == req.body.cpf && x.password == req.body.password);
+        if(user){
+            return res.json({token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'});
+        }
+        res.status(401).json({
+            message:'Not Authorized'
+        });
+    } catch (error) {
+        res.status(500).json({message:'Error on Auth'})
     }
-    res.status(401).json({
-        message:'Not Authorized'
-    });
-
 });
 
 
 app.get('/users', __SESSION, (req, res)=>{
-    res.json(db.users)
+    try {
+        res.json(db.users)
+    } catch (error) {
+        res.status(500).json({message:'Error on list of users'});
+    }
+    
 });
 
-app.get('/users/:cpf',__SESSION, (req, res)=>{
-    const user = db.users.find(x=>x.cpf == req.params.cpf);
-    res.json(user);
+app.get('/users/:cpf',__SESSION, (req, res)=>{]
+    try {
+        const user = db.users.find(x=>x.cpf == req.params.cpf);
+        res.json(user);    
+    } catch (error) {
+        res.status(500).json({message:'Error on get user'});
+    }
+    
 });
 
 app.post('/users', (req, res)=>{
-    req.body.id = Math.floor(Math.random()*1000);
-    let user = db.users.find(x=>x.cpf == req.body.cpf)
-    if(user){
-        return res.status(409).json({message:'The user already exists!'})
+    try {
+        req.body.id = Math.floor(Math.random()*1000);
+        let user = db.users.find(x=>x.cpf == req.body.cpf)
+        if(user){
+            return res.status(409).json({message:'The user already exists!'})
+        }
+        db.users.push(req.body);
+        res.json(req.body);
+    } catch (error) {
+        res.status(500).json({message:'Error on save the user'}); 
     }
-    db.users.push(req.body);
-    res.json(req.body);
 });
 
 app.put('/users/:cpf', __SESSION, (req, res)=>{
-    let user = db.users.find(x=>x.cpf == req.params.cpf);
-    user.name = req.body.name;
-    user.age = req.body.age;
-    res.json(user);
+    try {
+        let user = db.users.find(x=>x.cpf == req.params.cpf);
+        user.name = req.body.name;
+        user.age = req.body.age;
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({message:'Error on update the user'}); 
+    }
 });
 
 app.delete('/users/:cpf',__SESSION,  (req, res)=>{
-    db = db.users.filter(x=>x.cpf != req.params.cpf);
-    res.json({ delete:true });
+    try {
+        if(req.params.cpf){
+            db = db.users.filter(x=>x.cpf != req.params.cpf);
+            return res.json({ delete:true });
+        }
+        res.json({ delete:false });
+    } catch (error) {
+        res.status(500).json({message:'Error on delete the user'}); 
+    }
 })
 
 
 app.get('/payments/:cpf', __SESSION, (req, res)=>{
-
-    const payments = db.payments.find(x=>x.user.cpf == req.params.cpf);
+    try {
+        const payments = db.payments.find(x=>x.user.cpf == req.params.cpf);
     res.json(payments);
+    } catch (error) {
+        res.status(500).json({message:'Error on get the payments of user'}); 
+    }
 });
 
 
