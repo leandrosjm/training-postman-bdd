@@ -82,7 +82,7 @@ app.put('/users/:cpf', __SESSION, (req, res)=>{
 app.delete('/users/:cpf',__SESSION,  (req, res)=>{
     try {
         if(req.params.cpf){
-            db = db.users.filter(x=>x.cpf != req.params.cpf);
+            db.users = db.users.filter(x=>x.cpf != req.params.cpf);
             return res.json({ delete:true });
         }
         res.json({ delete:false });
