@@ -45,7 +45,8 @@ app.get('/users', __SESSION, (req, res)=>{
 app.get('/users/:cpf',__SESSION, (req, res)=>{
     try {
         const user = db.users.find(x=>x.cpf == req.params.cpf);
-        res.json(user);    
+        if(user) res.json(user);
+        else res.json({message:'Not found'});
     } catch (error) {
         res.status(500).json({message:'Error on get user'});
     }
@@ -55,6 +56,7 @@ app.get('/users/:cpf',__SESSION, (req, res)=>{
 app.post('/users', (req, res)=>{
     try {
         req.body.id = Math.floor(Math.random()*1000);
+        db.users = db.users || [];
         let user = db.users.find(x=>x.cpf == req.body.cpf)
         if(user){
             return res.status(409).json({message:'The user already exists!'})
