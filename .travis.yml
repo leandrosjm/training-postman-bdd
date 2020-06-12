@@ -11,4 +11,4 @@ before_script:
 - node_modules/.bin/newman --version
 
 script:
-- node_modules/.bin/newman run bdd/Testing with BDD.postman_collection.json -e bdd/heroku.postman_environment.json
+- node_modules/.bin/newman run bdd/Testing_with_BDD.postman_collection.json -e bdd/heroku.postman_environment.json
