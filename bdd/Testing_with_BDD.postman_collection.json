@@ -78,9 +78,6 @@
 									"let user = JSON.parse(responseBody);\r",
 									"pm.globals.set('cpf', user.cpf);\r",
 									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
 									"pm.test(\"Response time is less than 200ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
 									"});"
@@ -259,13 +256,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/users/{{cpf}}",
+							"raw": "{{url}}/users/05146625735",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"users",
-								"{{cpf}}"
+								"05146625735"
 							]
 						}
 					},
