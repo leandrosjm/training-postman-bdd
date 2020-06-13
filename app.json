@@ -1,0 +1,7 @@
+{
+    "name": "Postman - Testing BDD",
+    "description": "",
+    "repository": "https://github.com/leandrosjm/training-postman-bdd",
+    "logo": "https://nodejs.org/static/images/logo.svg",
+    "keywords": ["node", "express", "static"]
+  }
