@@ -10,7 +10,7 @@ const db = {
     {
         id:Math.floor(Math.random()*1000),
         name: 'José da Silva',
-        age:15,
+        age:16,
         cpf:'90172222044',
         password:'a'
     },
@@ -23,7 +23,7 @@ const db = {
         
     }],
     payments:[{
-        id:Math.floor(Math.random()*1000),
+        id:240,
         user:{
             cpf: '05146625735'
         },
@@ -47,7 +47,7 @@ const db = {
             ]
     },
     {
-        id:Math.floor(Math.random()*1000),
+        id:241,
         user:{
             cpf: '90172222044'
         },

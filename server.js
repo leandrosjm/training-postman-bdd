@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 var bodyParser = require('body-parser')
 let port = process.env.PORT || 3000;
-let db= require('./db.js')
+let db = require('./db.js');
+
+app.use(bodyParser.json({ type: 'application/json' }));
 
 const __SESSION = (req, res, next) =>{
     var token = req.headers['x-access-token'];
@@ -15,8 +17,6 @@ const __SESSION = (req, res, next) =>{
     }
     next();
 }
-
-app.use(bodyParser.json({ type: 'application/json' }));
 
 app.post('/auth', (req, res)=>{
     try {
@@ -101,6 +101,42 @@ app.get('/payments/:cpf', __SESSION, (req, res)=>{
     }
 });
 
+
+
+app.get('/items', (req, res)=>{
+    try {
+    res.json([]);
+    } catch (error) {
+        res.status(500).json({message:'Error on get the payments of user'}); 
+    }
+});
+
+
+/*
+app.get('/payments/', (req, res)=>{
+    try {
+        res.json(db.payments);
+    } catch (error) {
+        res.status(500).json({message:'Error on get all payments'});
+    }
+});
+
+
+app.get('/payments/:id/itens', (req, res)=>{
+    try {
+        let payment = db.payments.find(x=>x.id == req.params.id);
+        console.log('payment', payment)
+        if(payment){
+            return res.json(payment.itens);
+        }
+
+        res.json({ message: "Not found"})
+        
+    } catch (error) {
+        res.status(500).json({message:'Error on get all payments'});
+    }
+});
+*/
 
 app.listen(port, ()=>{
     console.log('Open', {
