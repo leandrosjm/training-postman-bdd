@@ -228,8 +228,8 @@
 									"\r",
 									"console.log(user);\r",
 									"\r",
-									"pm.test(\"Idade do usuario é igual a 15\", function(){\r",
-									"    pm.expect(user.age).to.equals(15);\r",
+									"pm.test(\"Idade do usuario é igual a 16\", function(){\r",
+									"    pm.expect(user.age).to.equals(16);\r",
 									"})\r",
 									""
 								],
