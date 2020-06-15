@@ -17,6 +17,6 @@ notifications:
   email:
     recipients:
       - leandro.pereira@fielo.com
-    on_success: never
+    on_success: always
     on_failure: always
 
