@@ -19,9 +19,11 @@
 									"var t = JSON.parse(responseBody);\r",
 									"pm.globals.set('access-token', t.token);\r",
 									"\r",
+									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -57,6 +59,50 @@
 		{
 			"name": "users",
 			"item": [
+				{
+					"name": "Fluxo Alternativo",
+					"item": [
+						{
+							"name": "Get Without Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "042a1e2d-7b02-454f-80ac-098a7f64b415",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"let msg = JSON.parse(responseBody);\r",
+											"\r",
+											"pm.test('Teste não autorizado', function(){\r",
+											"    pm.expect(msg.message).to.eq('Not Authorized');\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
 				{
 					"name": "Create",
 					"event": [
@@ -173,7 +219,19 @@
 									"});\r",
 									"pm.test(\"Response time is less than 200ms\", function () {\r",
 									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"\r",
+									"var lista = JSON.parse(responseBody);\r",
+									"\r",
+									"let user = lista.find(x=>x.cpf == '90172222044');\r",
+									"\r",
+									"console.log(user);\r",
+									"\r",
+									"pm.test(\"Idade do usuario é igual a 15\", function(){\r",
+									"    pm.expect(user.age).to.equals(15);\r",
+									"})\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -385,6 +443,48 @@
 							"path": [
 								"payments",
 								"05146625735"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/payments/240/itens",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"payments",
+								"240",
+								"itens"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Get All Itens",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_local}}/items",
+							"host": [
+								"{{url_local}}"
+							],
+							"path": [
+								"items"
 							]
 						}
 					},
