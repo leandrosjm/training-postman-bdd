@@ -27,7 +27,7 @@ const db = {
         user:{
             cpf: '05146625735'
         },
-        value:5031,
+        value:5032,
         itens:[
                 {
                     id:Math.floor(Math.random()*1000),
