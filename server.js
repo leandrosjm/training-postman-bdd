@@ -112,7 +112,7 @@ app.get('/items', (req, res)=>{
 });
 
 
-/*
+
 app.get('/payments/', (req, res)=>{
     try {
         res.json(db.payments);
@@ -136,7 +136,7 @@ app.get('/payments/:id/itens', (req, res)=>{
         res.status(500).json({message:'Error on get all payments'});
     }
 });
-*/
+
 
 app.listen(port, ()=>{
     console.log('Open', {
